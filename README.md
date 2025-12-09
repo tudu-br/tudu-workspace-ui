@@ -41,3 +41,5 @@ npm publish
   "tudu-components": "^0.1.0"
 }
 npm update tudu-components
+ou
+npm i  tudu-components@0.2.1 --force
