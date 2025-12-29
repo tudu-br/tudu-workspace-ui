@@ -1,26 +1,34 @@
 ### Fluxo para desenvolver atualizando em tempo real essa lib dentro do mfe ###
 # Na pasta da biblioteca
+Na pasta da Lib:
+
 cd tudu-workspace
 
-# 1. Fazer o link da biblioteca (execute uma vez)
-npm link
+ng build tudu-components (build limpo antes do watch).
 
-# 2. Em outro terminal da lib, iniciar build em watch mode
+cd dist/tudu-components
+
+# 1. Fazer o link da biblioteca (execute uma vez)
+npm link (sempre faça o link a partir da pasta dist, não da raiz da lib).
+Volte para a raiz e rode: ng build tudu-components --watch.
+
+# 2. iniciar build em watch mode
 ng build tudu-components --watch
+
 
 # No projeto consumidor
 cd meu-projeto-consumidor (raiz ex: mfe-tudu-professional)
 
 # 3. Linkar a biblioteca no projeto (execute uma vez)
-npm link tudu-components
+npm link tudu-components --force
 
 # 4. Iniciar o projeto
-npm start
+npm run start
 
 
 
 ### PUBLICAR A LIB NO NPM DPS DE DESENVOLVER ###
-cd projects/tudu-components
+cd tudu-workspace\dist\tudu-components
 
 # Atualiza a versão
 npm version patch  # 0.0.1 → 0.0.2

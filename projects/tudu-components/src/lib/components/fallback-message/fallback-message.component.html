@@ -4,19 +4,17 @@
   >
     <!-- Ícone dinâmico -->
     <div class="empty-state-icon mb-6 flex justify-center">
-      <div class="relative">
-        <!-- Ícone principal -->
-        <div [class]="emptyStateConfig.iconColor">
-          <div class="text-6xl">
+      <div class="relative w-32 h-32 flex items-center justify-center">
+        <div [class]="emptyStateConfig.iconColor" class="z-10">
+          <div class="text-6xl leading-none">
             {{ emptyStateConfig.icon }}
           </div>
         </div>
 
-        <!-- Background decorativo -->
-        <div class="absolute -z-10 inset-0 flex items-center justify-center">
+        <div class="absolute inset-0 flex items-center justify-center">
           <div
             [class]="emptyStateConfig.bgColor"
-            class="w-32 h-32 rounded-full opacity-50"
+            class="w-full h-full rounded-full opacity-50 flex-shrink-0"
           ></div>
         </div>
       </div>
