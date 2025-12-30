@@ -5,15 +5,11 @@
   class="fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden"
 ></div>
 
-<!-- Navbar Container -->
 <div
-  class="fixed top-0 left-0 right-0 z-50 shadow-none transition-transform duration-300 ease-out "
+  class="fixed top-0 left-0 right-0 z-50 shadow-none transition-all duration-500 w-full"
   [class.-translate-y-full]="!isHeaderVisible"
-  [style.backgroundColor]="
-    changeNavColor ? 'var(--primary)' : 'var(--primary)'
-  "
+  [style.background-color]="changeNavColor ? 'var(--primary)' : 'transparent'"
 >
-  <!-- Main Navbar -->
   <div class="w-full">
     <div class="mx-auto px-2 h-16 flex items-center justify-between">
       <!-- Left Content -->
@@ -34,7 +30,7 @@
   </div>
 
   <!-- Header Menu (Submenu) -->
-  <div header-menu class="w-full hr-nav">
+  <div header-menu class="w-full">
     <ng-content select="[header-menu]"></ng-content>
   </div>
 </div>

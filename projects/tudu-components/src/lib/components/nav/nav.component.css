@@ -33,6 +33,25 @@
   transform: translateY(calc(-100% - 1px));
 }
 
+/* .fixed {
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter 0.5s ease;
+} */
+
+.nav-transparent {
+  background-color: var(--premium) !important;
+}
+
+/* .nav-solid {
+  background-color: var(--primary) !important;
+} */
+/* Quando a cor mudar, adicionamos o desfoque */
+.nav-scrolled {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
 @media (max-width: 767px) {
   .-translate-y-full {
     transform: translateY(calc(-100% - 1px));

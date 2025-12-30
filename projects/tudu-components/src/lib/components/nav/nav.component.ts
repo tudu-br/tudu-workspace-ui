@@ -5,7 +5,8 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, map, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'lib-nav',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
-  @Input() changeNavColor: boolean = false;
+  changeNavColor: boolean = false;
 
   openClose: boolean = false;
   message: string = '';
@@ -24,8 +25,32 @@ export class NavComponent implements OnInit {
   isMobile = false;
 
   hasOffer: boolean = false;
+  allowTransparency = false;
 
-  constructor(private router: Router, private el: ElementRef) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private el: ElementRef
+  ) {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => this.activatedRoute),
+        map((route) => {
+          while (route.firstChild) route = route.firstChild;
+          return route;
+        }),
+        mergeMap((route) => route.data)
+      )
+      .subscribe((data) => {
+        this.allowTransparency = !!data['transparentNav'];
+
+        this.lastScrollPosition = 0;
+
+        this.isHeaderVisible = true; // força aparecer no load
+        this.changeNavColor = !this.allowTransparency;
+      });
+  }
 
   ngAfterViewInit() {
     this.checkMobile();
@@ -59,26 +84,36 @@ export class NavComponent implements OnInit {
   receiveMessage(event: string) {
     this.message = event;
   }
-
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (!this.isMobile) return;
+    const scroll = window.pageYOffset || document.documentElement.scrollTop;
 
-    const currentScrollPosition =
-      window.pageYOffset || document.documentElement.scrollTop;
+    const isScrollingDown = scroll > this.lastScrollPosition;
 
-    // Scroll DOWN - esconde o header
-    if (
-      currentScrollPosition > this.lastScrollPosition &&
-      currentScrollPosition > 50
-    ) {
+    /* =========================
+     * VISIBILIDADE
+     * ========================= */
+
+    if (scroll <= 10) {
+      // TOPO
+      this.isHeaderVisible = !isScrollingDown;
+    } else if (isScrollingDown && scroll > 50) {
+      // SCROLL DOWN
       this.isHeaderVisible = false;
-    }
-    // Scroll UP - mostra o header
-    else if (currentScrollPosition < this.lastScrollPosition) {
+    } else {
+      // SCROLL UP
       this.isHeaderVisible = true;
     }
 
-    this.lastScrollPosition = currentScrollPosition;
+    /* =========================
+     * COR
+     * ========================= */
+    if (!this.allowTransparency) {
+      this.changeNavColor = true;
+    } else {
+      this.changeNavColor = scroll > 20;
+    }
+
+    this.lastScrollPosition = scroll;
   }
 }
