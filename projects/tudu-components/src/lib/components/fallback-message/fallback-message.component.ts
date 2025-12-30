@@ -22,6 +22,7 @@ export class FallbackMessageComponent {
   @Input() customDescription?: string;
   @Input() primaryActionText?: string;
   @Input() secondaryActionText?: string;
+  @Input() hideBtn?: boolean = false;
 
   @Output() primaryAction = new EventEmitter<void>();
   @Output() secondaryAction = new EventEmitter<void>();
@@ -74,8 +75,7 @@ export class FallbackMessageComponent {
           return {
             title: this.customTitle || 'Sem serviço',
             description:
-              this.customDescription ||
-              'Não há serviços disponíveis aqui.',
+              this.customDescription || 'Não há serviços disponíveis aqui.',
             icon: '📄',
             // iconColor: 'text-yellow-500',
             // bgColor: 'bg-yellow-100',
