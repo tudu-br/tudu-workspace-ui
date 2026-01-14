@@ -1,27 +1,35 @@
 <div
   class="service-card rounded-xl shadow-md overflow-hidden bg-white hover:shadow-lg transition-all duration-300 relative mb-5"
 >
-  <!-- HEADER -->
   <div
     [class.force-show]="!hideHeader"
     class="service-card-header flex items-center justify-between p-3 border-b border-gray-200"
   >
-    <div class="flex items-center gap-3">
-      <div class="icon-style">
+    <div class="flex items-center gap-3 w-full min-w-0">
+      <div class="icon-style flex-shrink-0">
         <ng-content select="[service-icon]"></ng-content>
       </div>
-      <div class="flex flex-col">
-        <div class="flex items-center gap-3">
-          <div class="service-title truncate w-full">
+
+      <div class="flex flex-col flex-1 min-w-0">
+        <div class="flex items-center gap-3 w-full min-w-0">
+          <div class="service-title truncate flex-1 min-w-0">
             <ng-content select="[service-title]"></ng-content>
           </div>
-          <div class="">
+
+          <div class="flex-shrink-0">
             <ng-content select="[details-btn]"></ng-content>
           </div>
         </div>
+
         <div
-          class="whitespace-nowrap overflow-hidden text-ellipsis"
-          style="font-size: 12px; color: var(--tab-link)"
+          class="truncate w-full"
+          style="
+            font-size: 12px;
+            color: var(--tab-link);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          "
         >
           <ng-content select="[service-address]"></ng-content>
         </div>
@@ -29,7 +37,6 @@
     </div>
   </div>
 
-  <!-- BODY -->
   <div class="service-card-body p-4 space-y-3">
     <div>
       <div
@@ -71,8 +78,6 @@
     <ng-content select="[description]"></ng-content>
   </div>
 
-  <!-- FOOTER -->
-
   <div
     class="service-card-footer flex justify-center items-center p-3 border-t border-gray-100 bg-gray-50 gap-1"
   >
@@ -86,15 +91,4 @@
       <ng-content select="[price]"></ng-content>
     </div>
   </div>
-  <!-- <div
-    
-    class="flex row justify-between items-center p-3 border-t border-gray-100 bg-gray-50"
-  >
-    <div class="col-6">
-      <ng-content select="[main-btn]"></ng-content>
-    </div>
-    <div class="col-6">
-      <ng-content select="[price]"></ng-content>
-    </div>
-  </div> -->
 </div>

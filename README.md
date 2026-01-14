@@ -1,16 +1,21 @@
+## nvs ou nvm
+Se o nvs não funcionar, use o nvm (nvm add, nvm use)
+
 ### Fluxo para desenvolver atualizando em tempo real essa lib dentro do mfe ###
 # Na pasta da biblioteca
 Na pasta da Lib:
 
 cd tudu-workspace
 
-ng build tudu-components (build limpo antes do watch).
+(build limpo antes do watch).
+ng build tudu-components 
 
 cd dist/tudu-components
 
 # 1. Fazer o link da biblioteca (execute uma vez)
-npm link (sempre faça o link a partir da pasta dist, não da raiz da lib).
+(sempre faça o link a partir da pasta dist, não da raiz da lib).
 Volte para a raiz e rode: ng build tudu-components --watch.
+npm link 
 
 # 2. iniciar build em watch mode
 ng build tudu-components --watch

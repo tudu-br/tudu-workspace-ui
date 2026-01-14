@@ -98,9 +98,19 @@
   }
 
   .service-title {
+    flex: 1; /* Ocupa o espaço disponível */
+    min-width: 0; /* Permite encolher abaixo do tamanho do texto */
+    display: block; /* Garante que se comporte como bloco para o overflow */
     font-weight: 600;
-
     font-size: 1.1rem;
+    /* Força em qualquer tag que vier pelo ng-content (h1, span, div, etc) */
+    ::ng-deep > * {
+      display: block !important;
+      white-space: nowrap !important; /* PROÍBE a quebra de linha */
+      overflow: hidden !important; /* ESCONDE o que sobrar */
+      text-overflow: ellipsis !important; /* ADICIONA as reticências */
+      width: 100%;
+    }
   }
 
   .badge-finalizado {
