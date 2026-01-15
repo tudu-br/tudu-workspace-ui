@@ -1,0 +1,73 @@
+<div
+  *ngIf="showModal"
+  class="modal-overlay-fixed transition-all"
+  (click)="closeModal()"
+>
+  <div
+    class="bg-white w-full max-w-2xl rounded-t-[2.5rem] p-6 shadow-2xl animate-slide-up border-t border-gray-100 flex flex-col"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
+
+    <div class="flex flex-col items-center text-center">
+      <div class="relative mb-4">
+        <div
+          [class]="modalBgColor"
+          class="w-20 h-20 rounded-full opacity-40"
+        ></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <i
+            [class]="modalIcon + ' ' + modalIconColor"
+            class="fas text-3xl"
+          ></i>
+        </div>
+      </div>
+
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ messageTitle }}</h2>
+
+      <div class="w-full modal-scroll-area px-2 custom-scrollbar">
+        <p *ngIf="messageBody" class="text-gray-600 mb-4">{{ messageBody }}</p>
+
+        <div class="modal-dynamic-content text-left">
+          <ng-content select="[optional-content]"></ng-content>
+        </div>
+
+        <div
+          *ngIf="errorDetails"
+          class="mt-4 p-4 bg-red-50 rounded-2xl text-left border border-red-100"
+        >
+          <p class="text-[10px] font-bold text-red-700 uppercase mb-1">
+            Log do sistema:
+          </p>
+          <pre class="text-[11px] text-red-600 font-mono whitespace-pre-wrap">{{
+            errorDetails | json
+          }}</pre>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-col w-full gap-3 pb-4">
+        <button
+          [disabled]="priceNegotiated <= 0 && actionButtonText === 'Negociar'"
+          *ngIf="actionButtonText"
+          (click)="actionModal()"
+          class="w-full py-4 text-white rounded-2xl font-bold active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-lg btn-primary-custom"
+          [style.background-color]="'var(--primary)'"
+        >
+          <span *ngIf="!isLoadingBtn">{{ actionButtonText }}</span>
+          <ng-container *ngIf="isLoadingBtn">
+            <span>Processando</span>
+            <i class="fas fa-circle-notch fa-spin"></i>
+          </ng-container>
+        </button>
+
+        <button
+          *ngIf="showBtn"
+          (click)="closeModal()"
+          class="w-full py-2 text-gray-500 font-semibold hover:text-gray-800 transition-colors"
+        >
+          {{ closeButtonText }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

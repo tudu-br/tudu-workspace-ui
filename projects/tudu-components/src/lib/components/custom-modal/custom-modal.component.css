@@ -1,0 +1,142 @@
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Efeito de hover dinâmico para a variável --primary */
+.btn-primary-custom:hover:not(:disabled) {
+  filter: brightness(0.9);
+  transition: filter 0.2s ease;
+}
+
+.btn-primary-custom:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (min-width: 768px) {
+  .animate-slide-up {
+    margin-bottom: 2rem;
+    border-radius: 2.5rem;
+    width: 90%;
+  }
+}
+/* Substitua o seletor antigo .max-h-\[60vh\] por este: */
+.modal-scroll-area {
+  /* Define o limite inicial */
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Quando houver conteúdo expandido (como o calendário), 
+   o container pai flex vai permitir que esta div cresça */
+.modal-scroll-area:has(.animate-fade-in),
+.modal-scroll-area:focus-within {
+  max-height: 85vh;
+}
+
+/* Garante que o conteúdo injetado não seja cortado */
+.modal-dynamic-content {
+  height: auto;
+  overflow: visible !important;
+  display: block;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  /* Fundo preto com 60% de opacidade (fallback para navegadores antigos) */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Efeito de desfoque */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px); /* Suporte para Safari/iOS */
+
+  /* Garante que fique acima de tudo no MFE */
+  z-index: 99999;
+
+  /* Transição suave de aparição */
+  transition: opacity 0.3s ease;
+}
+
+/* Garante que o body não role quando o modal abrir (opcional, mas recomendado) */
+:host-context(body:has(.modal-overlay)) {
+  overflow: hidden;
+}
+
+/* Essa classe agora substitui o bg-black/60 e backdrop-blur do Tailwind */
+.modal-overlay-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Usando RGBA puro para garantir que a lib funcione em qualquer lugar */
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  /* Fallback para desfoque */
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Classes de Sucesso */
+.modal-bg-success {
+  background-color: #d1fae5 !important;
+}
+.modal-icon-success {
+  color: #10b981 !important;
+}
+
+/* Classes de Erro */
+.modal-bg-error {
+  background-color: #fee2e2 !important;
+}
+.modal-icon-error {
+  color: #ef4444 !important;
+}
+
+/* Classes de Alerta */
+.modal-bg-warning {
+  background-color: #fef3c7 !important;
+}
+.modal-icon-warning {
+  color: #f59e0b !important;
+}
+
+/* Overlay (conforme ajustamos antes) */
+.modal-overlay-fixed {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 9999;
+}
