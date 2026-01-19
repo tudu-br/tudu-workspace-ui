@@ -1,3 +1,4 @@
+/* --- Animações Principais --- */
 @keyframes slideUp {
   from {
     transform: translateY(100%);
@@ -7,21 +8,65 @@
   }
 }
 
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
 .animate-slide-up {
   animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* Efeito de hover dinâmico para a variável --primary */
-.btn-primary-custom:hover:not(:disabled) {
-  filter: brightness(0.9);
-  transition: filter 0.2s ease;
+.animate-slide-down {
+  animation: slideDown 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.btn-primary-custom:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* --- Estrutura do Overlay --- */
+.modal-overlay-fixed {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+  opacity: 1;
 }
 
+/* Classe para suavizar o desaparecimento do fundo */
+.overlay-hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Scroll e Conteúdo Dinâmico --- */
+.modal-scroll-area {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Expansão inteligente se houver conteúdo animado ou foco */
+.modal-scroll-area:has(.animate-fade-in),
+.modal-scroll-area:focus-within {
+  max-height: 85vh;
+}
+
+.modal-dynamic-content {
+  height: auto;
+  overflow: visible !important;
+  display: block;
+}
+
+/* --- Custom Scrollbar --- */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
@@ -35,76 +80,18 @@
   background: transparent;
 }
 
-@media (min-width: 768px) {
-  .animate-slide-up {
-    margin-bottom: 2rem;
-    border-radius: 2.5rem;
-    width: 90%;
-  }
-}
-/* Substitua o seletor antigo .max-h-\[60vh\] por este: */
-.modal-scroll-area {
-  /* Define o limite inicial */
-  max-height: 60vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+/* --- Botões e Interação --- */
+.btn-primary-custom:hover:not(:disabled) {
+  filter: brightness(0.9);
+  transition: filter 0.2s ease;
 }
 
-/* Quando houver conteúdo expandido (como o calendário), 
-   o container pai flex vai permitir que esta div cresça */
-.modal-scroll-area:has(.animate-fade-in),
-.modal-scroll-area:focus-within {
-  max-height: 85vh;
+.btn-primary-custom:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/* Garante que o conteúdo injetado não seja cortado */
-.modal-dynamic-content {
-  height: auto;
-  overflow: visible !important;
-  display: block;
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  /* Fundo preto com 60% de opacidade (fallback para navegadores antigos) */
-  background-color: rgba(0, 0, 0, 0.6);
-  /* Efeito de desfoque */
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px); /* Suporte para Safari/iOS */
-
-  /* Garante que fique acima de tudo no MFE */
-  z-index: 99999;
-
-  /* Transição suave de aparição */
-  transition: opacity 0.3s ease;
-}
-
-/* Garante que o body não role quando o modal abrir (opcional, mas recomendado) */
-:host-context(body:has(.modal-overlay)) {
-  overflow: hidden;
-}
-
-/* Essa classe agora substitui o bg-black/60 e backdrop-blur do Tailwind */
-.modal-overlay-fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  /* Usando RGBA puro para garantir que a lib funcione em qualquer lugar */
-  background-color: rgba(0, 0, 0, 0.6) !important;
-  /* Fallback para desfoque */
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 9999;
-}
-
-/* Classes de Sucesso */
+/* --- Estados Semânticos (Sucesso, Erro, Alerta) --- */
 .modal-bg-success {
   background-color: #d1fae5 !important;
 }
@@ -112,7 +99,6 @@
   color: #10b981 !important;
 }
 
-/* Classes de Erro */
 .modal-bg-error {
   background-color: #fee2e2 !important;
 }
@@ -120,7 +106,6 @@
   color: #ef4444 !important;
 }
 
-/* Classes de Alerta */
 .modal-bg-warning {
   background-color: #fef3c7 !important;
 }
@@ -128,15 +113,43 @@
   color: #f59e0b !important;
 }
 
-/* Overlay (conforme ajustamos antes) */
-.modal-overlay-fixed {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 9999;
+/* --- Responsividade (Desktop) --- */
+@media (min-width: 768px) {
+  .modal-overlay-fixed {
+    align-items: center; /* Centraliza no desktop em vez de ser bottom-sheet */
+  }
+
+  .animate-slide-up,
+  .animate-slide-down {
+    border-radius: 2.5rem;
+    width: 90%;
+    margin-bottom: 0; /* Remove margem de bottom-sheet no desktop */
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+  }
+}
+
+/* --- Trava de Scroll no Body --- */
+:host-context(body:has(.modal-overlay-fixed)) {
+  overflow: hidden;
 }

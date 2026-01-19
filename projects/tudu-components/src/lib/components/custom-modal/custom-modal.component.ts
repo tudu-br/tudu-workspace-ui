@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Location } from '@angular/common'; // Importação correta
 
 type ModalType = 'success' | 'error' | 'warning';
 
@@ -19,21 +27,42 @@ export class CustomModalComponent implements OnInit {
 
   @Output() modalClosed = new EventEmitter<void>();
   @Output() modalAction = new EventEmitter<void>();
+
   @Input() showModal = false;
   @Input() messageTitle: string = 'Pagamento Aprovado!';
   @Input() showBtn = true;
   @Input() priceNegotiated = 0;
   @Input() messageBody: string = 'Seu pagamento foi processado com sucesso.';
+  @Input() isLoadingBtn: boolean | undefined;
 
   // Configuração dinâmica
   modalIcon: string = 'fa-check';
   modalIconColor: string = 'text-green-600';
   modalBgColor: string = 'bg-green-100';
-  @Input() isLoadingBtn: boolean | undefined;
+  isClosing = false;
+
+  constructor(private location: Location) {}
 
   ngOnInit(): void {}
+
+  // Centraliza a abertura do modal com suporte ao botão voltar
   openModal(): void {
     this.showModal = true;
+    // Adiciona um estado no histórico para o botão voltar funcionar
+    this.location.go(this.location.path() + '#modalOpen');
+  }
+
+  // Atalho para abrir com tipos específicos
+  open(
+    type: ModalType,
+    message: string = '',
+    paymentMethod?: 'pix' | 'credit'
+  ): void {
+    this.configureModal(type, message);
+    if (paymentMethod) {
+      this.paymentMethod = paymentMethod;
+    }
+    this.openModal();
   }
 
   configureModal(type: ModalType, message: string = ''): void {
@@ -52,8 +81,8 @@ export class CustomModalComponent implements OnInit {
 
   private setSuccessStyles(message: string): void {
     this.modalIcon = 'fa-check-circle';
-    this.modalIconColor = 'modal-icon-success'; // Nome da classe no CSS
-    this.modalBgColor = 'modal-bg-success'; // Nome da classe no CSS
+    this.modalIconColor = 'modal-icon-success';
+    this.modalBgColor = 'modal-bg-success';
     this.messageTitle = 'Sucesso!';
     this.messageBody = message || 'Operação realizada com sucesso.';
   }
@@ -73,6 +102,7 @@ export class CustomModalComponent implements OnInit {
     this.messageTitle = 'Atenção';
     this.messageBody = message || 'Verifique os dados antes de continuar.';
   }
+
   actionModal(): void {
     if (this.isLoadingBtn !== undefined) {
       this.isLoadingBtn = true;
@@ -80,24 +110,32 @@ export class CustomModalComponent implements OnInit {
     } else {
       this.modalAction.emit();
       this.isLoadingBtn = false;
-      this.showModal = false;
+      this.closeModal(); // Usa o método de fechar para limpar o histórico
     }
-  }
-  closeModal(): void {
-    this.showModal = false;
-    this.modalClosed.emit();
   }
 
-  // Controle externo
-  open(
-    type: ModalType,
-    message: string = '',
-    paymentMethod?: 'pix' | 'credit'
-  ): void {
-    this.configureModal(type, message);
-    if (paymentMethod) {
-      this.paymentMethod = paymentMethod;
+  closeModal(): void {
+    this.isClosing = true; // Ativa a animação de descida
+
+    // Aguarda o tempo da animação (300ms) antes de remover do DOM
+    setTimeout(() => {
+      this.showModal = false;
+      this.isClosing = false; // Reseta para a próxima abertura
+      this.modalClosed.emit();
+
+      // Lógica do histórico que já fizemos
+      if (window.location.hash === '#modalOpen') {
+        const currentPath = this.location.path().split('#')[0];
+        this.location.replaceState(currentPath);
+      }
+    }, 300);
+  }
+  // Escuta o botão voltar do navegador ou celular
+  @HostListener('window:popstate')
+  onPopState(): void {
+    if (this.showModal) {
+      this.showModal = false;
+      this.modalClosed.emit();
     }
-    this.showModal = true;
   }
 }
