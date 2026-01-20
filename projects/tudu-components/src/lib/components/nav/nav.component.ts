@@ -84,30 +84,32 @@ export class NavComponent implements OnInit {
   receiveMessage(event: string) {
     this.message = event;
   }
+
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scroll = window.pageYOffset || document.documentElement.scrollTop;
-
     const isScrollingDown = scroll > this.lastScrollPosition;
 
-    /* =========================
-     * VISIBILIDADE
-     * ========================= */
-
-    if (scroll <= 10) {
-      // TOPO
-      this.isHeaderVisible = !isScrollingDown;
-    } else if (isScrollingDown && scroll > 50) {
-      // SCROLL DOWN
-      this.isHeaderVisible = false;
+    // --- REGRA DE VISIBILIDADE ---
+    if (this.allowTransparency) {
+      // Comportamento especial para Showcase (sua regra atual)
+      if (scroll <= 10) {
+        // No topo: fica invisível (se você quer que suma ao chegar no topo,
+        // isHeaderVisible deve ser false ou a cor deve ser transparente)
+        this.isHeaderVisible = !isScrollingDown;
+      } else if (isScrollingDown && scroll > 50) {
+        // Scroll Down: esconde
+        this.isHeaderVisible = false;
+      } else {
+        // Scroll Up: mostra
+        this.isHeaderVisible = true;
+      }
     } else {
-      // SCROLL UP
+      // REGRA PARA DEMAIS COMPONENTES: Sempre visível
       this.isHeaderVisible = true;
     }
 
-    /* =========================
-     * COR
-     * ========================= */
+    // --- REGRA DE COR (Mantida) ---
     if (!this.allowTransparency) {
       this.changeNavColor = true;
     } else {
