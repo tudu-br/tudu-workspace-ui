@@ -34,6 +34,7 @@ export class CustomModalComponent implements OnInit {
   @Input() priceNegotiated = 0;
   @Input() messageBody: string = 'Seu pagamento foi processado com sucesso.';
   @Input() isLoadingBtn: boolean | undefined;
+  @Input() disabledBtn: boolean = false;
 
   // Configuração dinâmica
   modalIcon: string = 'fa-check';
