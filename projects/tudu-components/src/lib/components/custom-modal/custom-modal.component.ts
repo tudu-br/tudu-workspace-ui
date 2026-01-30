@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Location } from '@angular/common'; // Importação correta
+import { Location } from '@angular/common';
 
 type ModalType = 'success' | 'error' | 'warning';
 
@@ -36,7 +36,9 @@ export class CustomModalComponent implements OnInit {
   @Input() isLoadingBtn: boolean | undefined;
   @Input() disabledBtn: boolean = false;
 
-  // Configuração dinâmica
+  // 🔒 NOVA PROPRIEDADE: Trava o fechamento do modal
+  @Input() isLocked: boolean = false;
+
   modalIcon: string = 'fa-check';
   modalIconColor: string = 'text-green-600';
   modalBgColor: string = 'bg-green-100';
@@ -46,23 +48,21 @@ export class CustomModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Centraliza a abertura do modal com suporte ao botão voltar
   openModal(): void {
     this.showModal = true;
-    // Adiciona um estado no histórico para o botão voltar funcionar
-    this.location.go(this.location.path() + '#modalOpen');
+    this.isClosing = false;
+    if (!window.location.hash.includes('modalOpen')) {
+      this.location.go(this.location.path() + '#modalOpen');
+    }
   }
 
-  // Atalho para abrir com tipos específicos
   open(
     type: ModalType,
     message: string = '',
-    paymentMethod?: 'pix' | 'credit'
+    paymentMethod?: 'pix' | 'credit',
   ): void {
     this.configureModal(type, message);
-    if (paymentMethod) {
-      this.paymentMethod = paymentMethod;
-    }
+    if (paymentMethod) this.paymentMethod = paymentMethod;
     this.openModal();
   }
 
@@ -111,32 +111,31 @@ export class CustomModalComponent implements OnInit {
     } else {
       this.modalAction.emit();
       this.isLoadingBtn = false;
-      this.closeModal(); // Usa o método de fechar para limpar o histórico
+      this.closeModal();
     }
   }
 
   closeModal(): void {
-    this.isClosing = true; // Ativa a animação de descida
+    if (!this.showModal || this.isClosing) return;
 
-    // Aguarda o tempo da animação (300ms) antes de remover do DOM
+    this.isClosing = true;
     setTimeout(() => {
       this.showModal = false;
-      this.isClosing = false; // Reseta para a próxima abertura
+      this.isClosing = false;
       this.modalClosed.emit();
-
-      // Lógica do histórico que já fizemos
-      if (window.location.hash === '#modalOpen') {
-        const currentPath = this.location.path().split('#')[0];
-        this.location.replaceState(currentPath);
-      }
     }, 300);
   }
-  // Escuta o botão voltar do navegador ou celular
+  // ✅ Intercepta o botão voltar do celular/browser
   @HostListener('window:popstate')
   onPopState(): void {
     if (this.showModal) {
-      this.showModal = false;
-      this.modalClosed.emit();
+      if (this.isLocked) {
+        // 🔒 Se estiver travado, "anulamos" o voltar adicionando o hash de novo
+        this.location.go(this.location.path() + '#modalOpen');
+      } else {
+        this.showModal = false;
+        this.modalClosed.emit();
+      }
     }
   }
 }

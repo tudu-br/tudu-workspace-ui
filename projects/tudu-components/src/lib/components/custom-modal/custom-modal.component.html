@@ -2,7 +2,7 @@
   *ngIf="showModal"
   class="modal-overlay-fixed"
   [ngClass]="{ 'overlay-hide': isClosing }"
-  (click)="closeModal()"
+  (click)="!isLocked && closeModal()"
 >
   <div
     class="bg-white w-full max-w-2xl rounded-t-[2.5rem] p-6 shadow-2xl border-t border-gray-100 flex flex-col"
@@ -10,23 +10,18 @@
     (click)="$event.stopPropagation()"
   >
     <div
-      class="w-full py-4 -mt-2 cursor-pointer flex justify-center"
-      (click)="closeModal()"
+      class="w-full py-4 -mt-2 flex justify-center"
+      [ngClass]="isLocked ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'"
+      (click)="!isLocked && closeModal()"
     >
       <div class="w-12 h-1.5 bg-gray-200 rounded-full"></div>
     </div>
 
     <div class="flex flex-col items-center text-center">
       <div class="relative mb-4">
-        <div
-          [class]="modalBgColor"
-          class="w-20 h-20 rounded-full opacity-40"
-        ></div>
+        <div [class]="modalBgColor" class="w-20 h-20 rounded-full opacity-40"></div>
         <div class="absolute inset-0 flex items-center justify-center">
-          <i
-            [class]="modalIcon + ' ' + modalIconColor"
-            class="fas text-3xl"
-          ></i>
+          <i [class]="modalIcon + ' ' + modalIconColor" class="fas text-3xl"></i>
         </div>
       </div>
 
@@ -39,25 +34,15 @@
           <ng-content select="[optional-content]"></ng-content>
         </div>
 
-        <div
-          *ngIf="errorDetails"
-          class="mt-4 p-4 bg-red-50 rounded-2xl text-left border border-red-100"
-        >
-          <p class="text-[10px] font-bold text-red-700 uppercase mb-1">
-            Log do sistema:
-          </p>
-          <pre class="text-[11px] text-red-600 font-mono whitespace-pre-wrap">{{
-            errorDetails | json
-          }}</pre>
+        <div *ngIf="errorDetails" class="mt-4 p-4 bg-red-50 rounded-2xl text-left border border-red-100">
+          <p class="text-[10px] font-bold text-red-700 uppercase mb-1">Log do sistema:</p>
+          <pre class="text-[11px] text-red-600 font-mono whitespace-pre-wrap">{{ errorDetails | json }}</pre>
         </div>
       </div>
 
       <div class="mt-6 flex flex-col w-full gap-3 pb-4">
         <button
-          [disabled]="
-            disabledBtn ||
-            (priceNegotiated <= 0 && actionButtonText === 'Negociar')
-          "
+          [disabled]="disabledBtn || (priceNegotiated <= 0 && actionButtonText === 'Negociar')"
           *ngIf="actionButtonText"
           (click)="actionModal()"
           class="w-full py-4 text-white rounded-2xl font-bold active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-lg btn-primary-custom"
@@ -71,7 +56,7 @@
         </button>
 
         <button
-          *ngIf="showBtn"
+          *ngIf="showBtn && isLocked"
           (click)="closeModal()"
           class="w-full py-2 text-gray-500 font-semibold hover:text-gray-800 transition-colors"
         >
