@@ -97,9 +97,12 @@ export class CustomModalComponent implements OnInit {
   }
 
   private setWarningStyles(message: string): void {
-    this.modalIcon = 'fa-exclamation-circle';
-    this.modalIconColor = 'modal-icon-warning';
-    this.modalBgColor = 'modal-bg-warning';
+    this.modalIcon = 'fa-info-circle';
+
+    // ✅ Usando classes nativas do Tailwind
+    this.modalIconColor = 'text-blue-600'; // Azul vibrante, mais amigável que o 800
+    this.modalBgColor = 'bg-blue-50';
+
     this.messageTitle = 'Atenção';
     this.messageBody = message || 'Verifique os dados antes de continuar.';
   }

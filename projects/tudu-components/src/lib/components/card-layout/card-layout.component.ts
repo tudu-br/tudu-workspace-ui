@@ -52,6 +52,7 @@ export class CardLayoutComponent implements OnInit {
       case 'concluido':
         return { backgroundColor: '#0096881c', color: '#009688' }; // teal
       case 'cancelado':
+      case 'expirado':
         return { backgroundColor: '#ff52521c', color: '#ff5252' }; // vermelho claro
       case 'publicado':
         return { backgroundColor: '#0096ff1c', color: '#25a5ff' }; // azul suave
