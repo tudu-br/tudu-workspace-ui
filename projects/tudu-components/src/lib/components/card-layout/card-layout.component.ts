@@ -10,6 +10,7 @@ export class CardLayoutComponent implements OnInit {
   @Input() statusPedido: string = '';
   @Input() cardTemplateIndicator: number = 0; // 1 para serviço, 2 para candidatura
   @Input() hideHeader: boolean = false; // 1 para serviço, 2 para candidatura
+  @Input() hideDescription: boolean = false; // 1 para serviço, 2 para candidatura
 
   tags: string[] = ['Residencial', 'Urgente', 'Elétrica'];
 
@@ -63,7 +64,7 @@ export class CardLayoutComponent implements OnInit {
       case 'pendente':
         return { backgroundColor: '#9a1fad1c', color: '#7e57c2' }; // roxo claro
       default:
-        return { backgroundColor: '#e0e0e01c', color: '#757575' }; // cinza padrão
+        return { backgroundColor: '#e0e0e044', color: '#757575' }; // cinza padrão
     }
   }
 

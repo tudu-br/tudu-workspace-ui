@@ -35,13 +35,14 @@ npm run start
 ### PUBLICAR A LIB NO NPM DPS DE DESENVOLVER ###
 cd tudu-workspace\dist\tudu-components
 
-# Atualiza a versão
-npm version patch  # 0.0.1 → 0.0.2
-# ou
-npm version minor  # 0.0.1 → 0.1.0
+# Atualiza a versão nos dois package json manualmente
+package.json e projects\tudu-components\package.json
 
 # Builda a nova versão
 ng build tudu-components
+
+# Commitar as alterações no repo
+Commite as alterações no repositorio após o build 
 
 # Login no npm registry
 npm login
