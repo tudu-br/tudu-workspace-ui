@@ -1,80 +1,37 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'lib-card-layout',
   templateUrl: './card-layout.component.html',
   styleUrls: ['./card-layout.component.css'],
 })
-export class CardLayoutComponent implements OnInit {
+export class CardLayoutComponent {
   @Input() statusPedido: string = '';
-  @Input() cardTemplateIndicator: number = 0; // 1 para serviço, 2 para candidatura
-  @Input() hideHeader: boolean = false; // 1 para serviço, 2 para candidatura
-  @Input() hideDescription: boolean = false; // 1 para serviço, 2 para candidatura
-
-  tags: string[] = ['Residencial', 'Urgente', 'Elétrica'];
-
-  statusOptions = [
-    { class: 'status-active', text: 'Ativo', icon: 'fa-circle' },
-    { class: 'status-pending', text: 'Em andamento', icon: 'fa-spinner' },
-    { class: 'status-completed', text: 'Concluído', icon: 'fa-check' },
-    { class: 'status-cancelled', text: 'Cancelado', icon: 'fa-times' },
-  ];
-
-  currentStatus = this.statusOptions[0];
-  private statusInterval: any;
-  flowIndicator: string = '1';
-
-  constructor(private route: Router) {
-    this.route.events.subscribe(() => {
-      if (this.route.url.includes('budgets')) {
-        this.flowIndicator = 'budgets';
-        console.log('asdasdadsasda', this.flowIndicator);
-      }
-    });
-  }
-
-  ngOnInit() {
-    let index = 0;
-    this.statusInterval = setInterval(() => {
-      index = (index + 1) % this.statusOptions.length;
-      this.currentStatus = this.statusOptions[index];
-    }, 3000);
-
-    console.log('cardTemplateIndicator', this.cardTemplateIndicator);
-  }
+  @Input() cardTemplateIndicator: number = 0;
+  @Input() hideHeader: boolean = false;
+  @Input() hideDescription: boolean = false;
 
   get badgeStyles(): { [key: string]: string } {
     const status = this.statusPedido?.toLowerCase();
 
     switch (status) {
       case 'finalizado':
-        return { backgroundColor: '#4caf5020', color: '#4caf50' }; // verde suave
+        return { backgroundColor: 'var(--status-success-bg)', color: 'var(--status-success)' };
       case 'concluido':
-        return { backgroundColor: '#0096881c', color: '#009688' }; // teal
+        return { backgroundColor: 'var(--status-teal-bg)', color: 'var(--status-teal)' };
       case 'cancelado':
       case 'expirado':
-        return { backgroundColor: '#ff52521c', color: '#ff5252' }; // vermelho claro
+        return { backgroundColor: 'var(--status-danger-bg)', color: 'var(--status-danger)' };
       case 'publicado':
-        return { backgroundColor: '#0096ff1c', color: '#25a5ff' }; // azul suave
+        return { backgroundColor: 'var(--status-info-bg)', color: 'var(--status-info)' };
       case 'recusado':
-        return { backgroundColor: '#ff52521c', color: '#ff5252' }; // vermelho claro
+        return { backgroundColor: 'var(--status-danger-bg)', color: 'var(--status-danger)' };
       case 'em negociacao':
-        return { backgroundColor: '#ffab251f', color: '#ff9800' }; // laranja suave
+        return { backgroundColor: 'var(--status-warning-bg)', color: 'var(--status-warning)' };
       case 'pendente':
-        return { backgroundColor: '#9a1fad1c', color: '#7e57c2' }; // roxo claro
+        return { backgroundColor: 'var(--status-pending-bg)', color: 'var(--status-pending)' };
       default:
-        return { backgroundColor: '#e0e0e044', color: '#757575' }; // cinza padrão
+        return { backgroundColor: 'var(--status-neutral-bg)', color: 'var(--status-neutral)' };
     }
-  }
-
-  ngOnDestroy() {
-    if (this.statusInterval) {
-      clearInterval(this.statusInterval);
-    }
-  }
-
-  verDetalhes() {
-    alert('Abrir detalhes do serviço...');
   }
 }

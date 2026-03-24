@@ -2,6 +2,7 @@
   background: var(--light, #fff);
   border-radius: 1rem;
   transition: all 0.3s ease;
+
   .service-card-header i {
     color: var(--primary);
     font-size: 20px;
@@ -12,19 +13,6 @@
     color: grey;
     border-radius: 25px;
     padding: 5px;
-  }
-
-  .template-2-order {
-    margin-top: -6em;
-  }
-
-  /* Estilos específicos para cada template */
-  &[data-template="1"] {
-    /* Estilos específicos do template 1 */
-  }
-
-  &[data-template="2"] {
-    /* Estilos específicos do template 2 */
   }
 
   .status-badge {
@@ -38,7 +26,6 @@
     text-transform: capitalize;
     transition: all 0.3s ease;
 
-    /* Faz o ícone herdar a cor da badge */
     i {
       color: inherit !important;
     }
@@ -52,28 +39,14 @@
     color: var(--primary);
     font-size: 12px;
   }
-  /* .details-btn {
-    font-size: 17px;
-    font-weight: 600;
-    transition: background-color 0.8s ease-in-out;
-    background: var(--primary);
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  .details-btn:hover {
-    background: var(--primary-dark);
-  } */
 
   .details-btn {
     cursor: pointer;
   }
+
   .price {
     font-weight: 600;
-    font-size: 1rem;
-    color: var(--primary);
+    color: var(--background-color);
   }
 
   .service-address {
@@ -88,54 +61,24 @@
     background-color: var(--primary) !important;
     width: 40px;
     height: 40px;
-    font-size: 12px;
     font-size: 20px;
     border-radius: 10px;
   }
-  .price {
-    font-weight: 600;
-    color: var(--background-color);
-  }
 
   .service-title {
-    flex: 1; /* Ocupa o espaço disponível */
-    min-width: 0; /* Permite encolher abaixo do tamanho do texto */
-    display: block; /* Garante que se comporte como bloco para o overflow */
+    flex: 1;
+    min-width: 0;
+    display: block;
     font-weight: 600;
     font-size: 1.1rem;
-    /* Força em qualquer tag que vier pelo ng-content (h1, span, div, etc) */
+
     ::ng-deep > * {
       display: block !important;
-      white-space: nowrap !important; /* PROÍBE a quebra de linha */
-      overflow: hidden !important; /* ESCONDE o que sobrar */
-      text-overflow: ellipsis !important; /* ADICIONA as reticências */
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
       width: 100%;
     }
-  }
-
-  .badge-finalizado {
-    background-color: #e0f7fa;
-    color: #00796b;
-  }
-
-  .badge-concluido {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-  }
-
-  .badge-cancelado {
-    background-color: #ffebee;
-    color: #c62828;
-  }
-
-  .badge-publicado {
-    background-color: #fff3e0;
-    color: #25a5ff;
-  }
-
-  .badge-default {
-    background-color: #eeeeee;
-    color: #757575;
   }
 }
 
@@ -162,15 +105,16 @@
 }
 
 .service-card-header {
-  display: none; /* Escondido por padrão */
+  display: none;
 }
 
 @media (min-width: 768px) {
   .service-card-header {
-    display: block; /* Mostra apenas em telas grandes */
+    display: block;
   }
 }
 
 .service-card-header.force-show {
-  display: block; /* Força mostrar mesmo em mobile */
+  display: block;
 }
+

@@ -5,6 +5,7 @@ import { CustomModalComponent } from './components/custom-modal/custom-modal.com
 import { FallbackMessageComponent } from './components/fallback-message/fallback-message.component';
 import { NavComponent } from './components/nav/nav.component';
 import { TuduComponentsComponent } from './tudu-components.component';
+import { PopupComponent } from '../public-api';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { TuduComponentsComponent } from './tudu-components.component';
     NavComponent,
     FallbackMessageComponent,
     CustomModalComponent,
+    PopupComponent,
   ],
   imports: [CommonModule],
   exports: [
@@ -21,6 +23,7 @@ import { TuduComponentsComponent } from './tudu-components.component';
     NavComponent,
     FallbackMessageComponent,
     CustomModalComponent,
+    PopupComponent,
   ],
 })
 export class TuduComponentsModule {}
