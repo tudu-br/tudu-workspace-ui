@@ -98,6 +98,7 @@
 
 .status-badge i.notification-pulse {
   animation: pulse 2s infinite;
+  border-radius: 50%;
 }
 
 :host-context(.has-notification) .status-badge i {
