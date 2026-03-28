@@ -1,0 +1,26 @@
+<div *ngIf="isOpen" class="fixed top-6 z-[10000] w-full max-w-[320px]">
+  <div
+    [class]="
+      'bg-white border border-gray-100 rounded-2xl shadow-2xl flex p-4 overflow-hidden relative ' +
+      animationClass
+    "
+  >
+    <div [class]="'absolute left-0 top-0 bottom-0 w-1.5 ' + barColor"></div>
+
+    <div class="flex-shrink-0 mr-3">
+      <i [class]="iconClass + ' text-xl'"></i>
+    </div>
+
+    <div class="flex-grow pr-4 text-left">
+      <h4 class="text-sm font-bold text-gray-900 leading-tight">{{ title }}</h4>
+      <p class="text-[11px] text-gray-500 mt-1 leading-snug">{{ message }}</p>
+    </div>
+
+    <button
+      (click)="closePopup()"
+      class="flex-shrink-0 text-gray-300 hover:text-gray-500 transition-colors"
+    >
+      <i class="fas fa-times text-sm"></i>
+    </button>
+  </div>
+</div>
