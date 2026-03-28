@@ -27,6 +27,7 @@ export class CardLayoutComponent {
       case 'recusado':
         return { backgroundColor: 'var(--status-danger-bg)', color: 'var(--status-danger)' };
       case 'em negociacao':
+      case 'negociacao':
         return { backgroundColor: 'var(--status-warning-bg)', color: 'var(--status-warning)' };
       case 'pendente':
         return { backgroundColor: 'var(--status-pending-bg)', color: 'var(--status-pending)' };
