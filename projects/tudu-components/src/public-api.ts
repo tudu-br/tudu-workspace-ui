@@ -13,5 +13,8 @@ export * from './lib/components/fallback-message/fallback-message.component';
 export * from './lib/components/custom-modal/custom-modal.component';
 export * from './lib/components/popup/popup.component'; // ✅ Classe do popup pronta aqui
 
-// 3. POR ÚLTIMO o módulo que declara todo mundo
+// 3. Pipes
+export * from './lib/components/format-date-time/format-date-time.pipe';
+
+// 4. POR ÚLTIMO o módulo que declara todo mundo
 export * from './lib/tudu-components.module';
