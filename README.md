@@ -33,7 +33,6 @@ npm run start
 
 
 ### PUBLICAR A LIB NO NPM DPS DE DESENVOLVER ###
-cd tudu-workspace\dist\tudu-components
 
 # Atualiza a versão nos dois package json manualmente
 package.json e projects\tudu-components\package.json

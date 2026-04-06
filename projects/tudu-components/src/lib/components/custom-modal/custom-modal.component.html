@@ -5,7 +5,7 @@
   (click)="!isLocked && closeModal()"
 >
   <div
-    class="bg-white w-full max-w-2xl rounded-t-[2.5rem] p-6 shadow-2xl border-t border-gray-100 flex flex-col"
+    class="bg-surface w-full max-w-2xl rounded-t-[2.5rem] p-6 shadow-2xl border-t border-border-light flex flex-col"
     [ngClass]="isClosing ? 'animate-slide-down' : 'animate-slide-up'"
     (click)="$event.stopPropagation()"
   >
@@ -14,7 +14,7 @@
       [ngClass]="isLocked ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'"
       (click)="!isLocked && closeModal()"
     >
-      <div class="w-12 h-1.5 bg-gray-200 rounded-full"></div>
+      <div class="w-12 h-1.5 bg-medium rounded-full"></div>
     </div>
 
     <div class="flex flex-col items-center text-center">
@@ -25,18 +25,18 @@
         </div>
       </div>
 
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ messageTitle }}</h2>
+      <h2 class="text-2xl font-bold text-text-primary mb-2">{{ messageTitle }}</h2>
 
       <div class="w-full modal-scroll-area px-2 custom-scrollbar">
-        <p *ngIf="messageBody" class="text-gray-600 mb-4">{{ messageBody }}</p>
+        <p *ngIf="messageBody" class="text-text-secondary mb-4">{{ messageBody }}</p>
 
         <div class="modal-dynamic-content text-left">
           <ng-content select="[optional-content]"></ng-content>
         </div>
 
-        <div *ngIf="errorDetails" class="mt-4 p-4 bg-red-50 rounded-2xl text-left border border-red-100">
-          <p class="text-[10px] font-bold text-red-700 uppercase mb-1">Log do sistema:</p>
-          <pre class="text-[11px] text-red-600 font-mono whitespace-pre-wrap">{{ errorDetails | json }}</pre>
+        <div *ngIf="errorDetails" class="mt-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-2xl text-left border border-red-100 dark:border-red-900/30">
+          <p class="text-[10px] font-bold text-red-700 dark:text-red-400 uppercase mb-1">Log do sistema:</p>
+          <pre class="text-[11px] text-red-600 dark:text-red-300 font-mono whitespace-pre-wrap">{{ errorDetails | json }}</pre>
         </div>
       </div>
 
@@ -58,7 +58,7 @@
         <button
           *ngIf="showBtn"
           (click)="closeModal()"
-          class="w-full py-2 text-gray-500 font-semibold hover:text-gray-800 transition-colors"
+          class="w-full py-2 text-text-muted font-semibold hover:text-text-primary transition-colors"
         >
           {{ closeButtonText }}
         </button>
