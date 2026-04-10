@@ -1,6 +1,7 @@
 .navbar-ajust {
   background-color: var(--medium);
   padding: 1em;
+  padding-top: calc(1em + env(safe-area-inset-top));
 }
 
 .container-fluid {

@@ -67,6 +67,10 @@ export class CustomModalComponent implements OnInit {
   }
 
   configureModal(type: ModalType, message: string = ''): void {
+    if (this.isLoadingBtn !== undefined) {
+      this.isLoadingBtn = false;
+    }
+
     switch (type) {
       case 'success':
         this.setSuccessStyles(message);
@@ -113,7 +117,6 @@ export class CustomModalComponent implements OnInit {
       this.modalAction.emit();
     } else {
       this.modalAction.emit();
-      this.isLoadingBtn = false;
       this.closeModal();
     }
   }
