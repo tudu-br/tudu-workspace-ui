@@ -27,6 +27,7 @@ export class CustomModalComponent implements OnInit {
 
   @Output() modalClosed = new EventEmitter<void>();
   @Output() modalAction = new EventEmitter<void>();
+  @Output() closeAction = new EventEmitter<void>();
 
   @Input() showModal = false;
   @Input() messageTitle: string = 'Pagamento Aprovado!';
@@ -66,48 +67,46 @@ export class CustomModalComponent implements OnInit {
     this.openModal();
   }
 
-  configureModal(type: ModalType, message: string = ''): void {
+  configureModal(type: ModalType, message: string = '', title?: string): void {
     if (this.isLoadingBtn !== undefined) {
       this.isLoadingBtn = false;
     }
 
     switch (type) {
       case 'success':
-        this.setSuccessStyles(message);
+        this.setSuccessStyles(message, title);
         break;
       case 'error':
-        this.setErrorStyles(message);
+        this.setErrorStyles(message, title);
         break;
       case 'warning':
-        this.setWarningStyles(message);
+        this.setWarningStyles(message, title);
         break;
     }
   }
 
-  private setSuccessStyles(message: string): void {
+  private setSuccessStyles(message: string, title?: string): void {
     this.modalIcon = 'fa-check-circle';
     this.modalIconColor = 'modal-icon-success';
     this.modalBgColor = 'modal-bg-success';
-    this.messageTitle = 'Sucesso!';
+    this.messageTitle = title || 'Sucesso!';
     this.messageBody = message || 'Operação realizada com sucesso.';
   }
 
-  private setErrorStyles(message: string): void {
+  private setErrorStyles(message: string, title?: string): void {
     this.modalIcon = 'fa-times-circle';
     this.modalIconColor = 'modal-icon-error';
     this.modalBgColor = 'modal-bg-error';
-    this.messageTitle = 'Ops! Algo deu errado';
+    this.messageTitle = title || 'Ops! Algo deu errado';
     this.messageBody = message || 'Não conseguimos processar sua solicitação.';
   }
 
-  private setWarningStyles(message: string): void {
+  private setWarningStyles(message: string, title?: string): void {
     this.modalIcon = 'fa-info-circle';
-
-    // ✅ Usando classes nativas do Tailwind
-    this.modalIconColor = 'text-blue-600'; // Azul vibrante, mais amigável que o 800
+    this.modalIconColor = 'text-blue-600';
     this.modalBgColor = 'bg-blue-50';
 
-    this.messageTitle = 'Atenção';
+    this.messageTitle = title || 'Atenção';
     this.messageBody = message || 'Verifique os dados antes de continuar.';
   }
 
@@ -121,10 +120,14 @@ export class CustomModalComponent implements OnInit {
     }
   }
 
-  closeModal(): void {
+  closeModal(fromButton: boolean = false): void {
     if (!this.showModal || this.isClosing) return;
 
     this.isClosing = true;
+    if (fromButton) {
+      this.closeAction.emit();
+    }
+    
     setTimeout(() => {
       this.showModal = false;
       this.isClosing = false;
