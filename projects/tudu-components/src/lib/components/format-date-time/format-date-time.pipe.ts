@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment';
 
 @Pipe({
   name: 'formatDateTime',
@@ -12,22 +11,52 @@ export class FormatDateTimePipe implements PipeTransform {
       return 'A definir';
     }
 
-    const mDate = (moment as any)(value);
+    let inputDate: Date;
 
-    if (!mDate.isValid()) {
+    if (value.includes('T')) {
+      inputDate = new Date(value);
+    } else {
+      const parts = value.split(' ');
+      if (parts.length < 2) {
+        inputDate = new Date(value);
+      } else {
+        const [datePart, timePart] = parts;
+        const [year, month, day] = datePart.split('-').map(Number);
+        const [hour, minute] = timePart.split(':').map(Number);
+        inputDate = new Date(year, month - 1, day, hour || 0, minute || 0);
+      }
+    }
+
+    if (isNaN(inputDate.getTime())) {
       return value;
     }
 
-    const now = (moment as any)();
+    const today = new Date();
 
-    if (mDate.isBefore(now)) {
+    if (inputDate.getTime() < today.getTime()) {
       return 'A definir';
     }
 
-    if (showAgora && mDate.isSame(now, 'day')) {
-      return `Hoje às ${mDate.format('HH:mm')}`;
+    const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const inputDateOnly = new Date(
+      inputDate.getFullYear(),
+      inputDate.getMonth(),
+      inputDate.getDate()
+    );
+
+    const isToday = inputDateOnly.getTime() === todayDate.getTime();
+
+    const dayStr = String(inputDate.getDate()).padStart(2, '0');
+    const monthStr = String(inputDate.getMonth() + 1).padStart(2, '0');
+    const yearStr = inputDate.getFullYear();
+    const hourStr = String(inputDate.getHours()).padStart(2, '0');
+    const minuteStr = String(inputDate.getMinutes()).padStart(2, '0');
+    const timeStr = `${hourStr}:${minuteStr}`;
+
+    if (showAgora && isToday) {
+      return `Hoje às ${timeStr}`;
     }
 
-    return mDate.format('DD/MM/YYYY - HH:mm');
+    return `${dayStr}/${monthStr}/${yearStr} - ${timeStr}`;
   }
 }
