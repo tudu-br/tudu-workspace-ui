@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import * as moment from 'moment';
 
 @Pipe({
   name: 'formatDateTime',
@@ -7,22 +8,26 @@ export class FormatDateTimePipe implements PipeTransform {
   transform(value: string | null | undefined, showAgora: boolean = true): string {
     if (!value) return '';
 
-    const [datePart, timePart] = value.split(' ');
-    const [year, month, day] = datePart.split('-');
-
-    if (!year || !month || !day || !timePart) return value;
-
-    const inputDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-    const today = new Date();
-    const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const inputDateOnly = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
-
-    const isToday = inputDateOnly.getTime() === todayDate.getTime();
-
-    if (showAgora && isToday) {
-      return `Hoje às ${timePart}`;
+    if (value === 'A definir' || value === 'A combinar com o prestador') {
+      return 'A definir';
     }
 
-    return `${day}/${month}/${year} - ${timePart}`;
+    const mDate = (moment as any)(value);
+
+    if (!mDate.isValid()) {
+      return value;
+    }
+
+    const now = (moment as any)();
+
+    if (mDate.isBefore(now)) {
+      return 'A definir';
+    }
+
+    if (showAgora && mDate.isSame(now, 'day')) {
+      return `Hoje às ${mDate.format('HH:mm')}`;
+    }
+
+    return mDate.format('DD/MM/YYYY - HH:mm');
   }
 }
