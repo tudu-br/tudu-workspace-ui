@@ -16,25 +16,28 @@ export class CardLayoutComponent {
 
     switch (status) {
       case 'finalizado':
-        return { backgroundColor: 'var(--status-success-bg)', color: 'var(--status-success)' };
       case 'concluido':
+        return { backgroundColor: 'var(--status-success-bg)', color: 'var(--status-success)' };
+      case 'prestador_a_caminho':
+      case 'em_deslocamento':
+      case 'no_local':
         return { backgroundColor: 'var(--status-teal-bg)', color: 'var(--status-teal)' };
       case 'cancelado':
       case 'expirado':
       case 'atrasado':
         return { backgroundColor: 'var(--status-danger-bg)', color: 'var(--status-danger)' };
       case 'publicado':
+      case 'agendado':
         return { backgroundColor: 'var(--status-info-bg)', color: 'var(--status-info)' };
       case 'recusado':
         return { backgroundColor: 'var(--status-danger-bg)', color: 'var(--status-danger)' };
       case 'em negociacao':
       case 'negociacao':
-        return { backgroundColor: 'var(--status-warning-bg)', color: 'var(--status-warning)' };
       case 'em_andamento':
-        return { backgroundColor: 'var(--status-warning-bg)', color: 'var(--status-warning)' };
-      case 'prestador_a_caminho':
+      case 'em_execucao':
         return { backgroundColor: 'var(--status-warning-bg)', color: 'var(--status-warning)' };
       case 'pendente':
+      case 'aguardando_prestador':
         return { backgroundColor: 'var(--status-pending-bg)', color: 'var(--status-pending)' };
       default:
         return { backgroundColor: 'var(--status-neutral-bg)', color: 'var(--status-neutral)' };
