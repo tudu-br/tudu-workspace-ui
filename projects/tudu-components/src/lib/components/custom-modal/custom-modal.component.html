@@ -34,7 +34,7 @@
     >
       <div class="flex flex-col items-center text-center w-full">
         <!-- Ícone -->
-        <div class="relative mb-4">
+        <div *ngIf="showIcon && modalIcon" class="relative mb-4">
           <div [class]="modalBgColor" class="w-20 h-20 rounded-full opacity-40"></div>
           <div class="absolute inset-0 flex items-center justify-center">
             <i [class]="modalIcon + ' ' + modalIconColor" class="fas text-3xl"></i>
@@ -42,7 +42,7 @@
         </div>
 
         <!-- Título -->
-        <h2 class="text-2xl font-bold text-text-primary mb-2">{{ messageTitle }}</h2>
+        <h2 *ngIf="messageTitle" class="text-2xl font-bold text-text-primary mb-2">{{ messageTitle }}</h2>
 
         <!-- Corpo da Mensagem -->
         <p *ngIf="messageBody" class="text-text-secondary mb-4">{{ messageBody }}</p>

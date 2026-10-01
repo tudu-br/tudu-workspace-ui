@@ -30,6 +30,7 @@ export class CustomModalComponent implements OnInit {
   @Output() closeAction = new EventEmitter<void>();
 
   @Input() showModal = false;
+  @Input() showIcon = true;
   @Input() messageTitle: string = 'Pagamento Aprovado!';
   @Input() showBtn = true;
   @Input() priceNegotiated = 0;
