@@ -40,6 +40,9 @@ export class CustomModalComponent implements OnInit {
 
   // 🔒 NOVA PROPRIEDADE: Trava o fechamento do modal
   @Input() isLocked: boolean = false;
+  @Input() customIcon?: string;
+  @Input() customIconColor?: string;
+  @Input() customBgColor?: string;
 
   modalIcon: string = 'fa-check';
   modalIconColor: string = 'text-green-600';
@@ -48,7 +51,7 @@ export class CustomModalComponent implements OnInit {
 
   constructor(private location: Location) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { if (this.customIcon) this.modalIcon = this.customIcon; if (this.customIconColor) this.modalIconColor = this.customIconColor; if (this.customBgColor) this.modalBgColor = this.customBgColor; }
 
   openModal(): void {
     this.showModal = true;
@@ -149,3 +152,5 @@ export class CustomModalComponent implements OnInit {
     }
   }
 }
+
+
