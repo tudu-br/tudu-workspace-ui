@@ -107,9 +107,9 @@
 
 /* --- Protecao de Camera Notch (Mobile) --- */
 @media (max-width: 767px) {
-  .custom-modal-root section {
-    margin-top: calc(env(safe-area-inset-top) + 15px);
-    max-height: calc(100dvh - env(safe-area-inset-top) - 15px) !important;
+  .custom-modal-root section.relative {
+    /* Garante pelo menos 45px de respiro no topo para nao sobrepor status bar/notch */
+    max-height: calc(100dvh - max(env(safe-area-inset-top), 45px)) !important;
   }
 }
 
