@@ -105,6 +105,14 @@
   }
 }
 
+/* --- Protecao de Camera Notch (Mobile) --- */
+@media (max-width: 767px) {
+  .custom-modal-root section {
+    margin-top: calc(env(safe-area-inset-top) + 15px);
+    max-height: calc(100dvh - env(safe-area-inset-top) - 15px) !important;
+  }
+}
+
 /* --- Trava de Scroll no Body --- */
 :host-context(body:has(.custom-modal-root)) {
   overflow: hidden;
